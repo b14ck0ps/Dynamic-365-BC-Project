@@ -33,7 +33,11 @@ table 50130 Student
         StudentCourseRec.SetRange("Student ID No", "Student ID");
         /* while StudentCourseRec.FindSet(true) do
             StudentCourseRec.Delete(true); */
-        StudentCourseRec.DeleteAll(true);
+        // StudentCourseRec.DeleteAll(true);
+        if StudentCourseRec.FindFirst() then
+            repeat
+                StudentCourseRec.Delete(true);
+            until StudentCourseRec.Next() = 0;
     end;
 
 }
