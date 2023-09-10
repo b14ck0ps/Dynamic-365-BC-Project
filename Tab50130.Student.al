@@ -31,8 +31,9 @@ table 50130 Student
         StudentCourseRec: Record "Student Course";
     begin
         StudentCourseRec.SetRange("Student ID No", "Student ID");
-        while StudentCourseRec.FindSet(true) do
-            StudentCourseRec.Delete(true);
+        /* while StudentCourseRec.FindSet(true) do
+            StudentCourseRec.Delete(true); */
+        StudentCourseRec.DeleteAll(true);
     end;
 
 }
