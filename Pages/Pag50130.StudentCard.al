@@ -12,16 +12,16 @@ page 50130 "Student Card"
             group(General)
             {
                 Caption = 'General';
-
+                field("Student ID"; Rec."Student ID")
+                {
+                    ToolTip = 'Specifies the value of the Student ID field.';
+                    Editable = false;
+                }
                 field("Student Address"; Rec."Student Address")
                 {
                     ToolTip = 'Specifies the value of the Student Address field.';
                 }
-                field("Student ID"; Rec."Student ID")
-                {
-                    ToolTip = 'Specifies the value of the Student ID field.';
 
-                }
                 field("Student Name"; Rec."Student Name")
                 {
                     ToolTip = 'Specifies the value of the Student Name field.';
