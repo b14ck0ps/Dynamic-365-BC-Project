@@ -4,7 +4,7 @@ page 50138 "Course List"
     Caption = 'Course List';
     PageType = List;
     SourceTable = Course;
-    
+
     layout
     {
         area(content)
@@ -22,6 +22,14 @@ page 50138 "Course List"
                 field(Description; Rec.Description)
                 {
                     ToolTip = 'Specifies the value of the Description field.';
+                }
+                field("Course Instructor"; Rec."Course Instructor ID")
+                {
+                    ToolTip = 'Specifies the value of the Course Instructor field.';
+                }
+                field("Course Instructor Name"; Rec."Course Instructor Name")
+                {
+                    ToolTip = 'Specifies the value of the Course Instructor Name field.';
                 }
             }
         }

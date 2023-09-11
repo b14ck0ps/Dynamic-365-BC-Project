@@ -16,6 +16,27 @@ table 50137 Course
         field(3; Description; Text[100])
         {
             Caption = 'Description';
+
+        }
+        field(4; "Course Instructor ID"; Code[10])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Employee";
+
+            trigger OnValidate()
+            var
+                Faculty: Record "Employee";
+            begin
+                if ("Course Instructor ID" <> '') then begin
+                    Faculty.GET("Course Instructor ID");
+                    "Course Instructor Name" := Faculty.FullName();
+                end;
+            end;
+        }
+        field(5; "Course Instructor Name"; Text[50])
+        {
+            DataClassification = ToBeClassified;
+            Editable = false;
         }
     }
     keys
