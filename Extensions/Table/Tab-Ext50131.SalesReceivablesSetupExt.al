@@ -8,5 +8,12 @@ tableextension 50131 SalesReceivablesSetupExt extends "Sales & Receivables Setup
             DataClassification = ToBeClassified;
             TableRelation = "No. Series";
         }
+
+        field(50101; "Student Approval No"; Code[20])
+        {
+            Caption = 'Student Approval No';
+            DataClassification = ToBeClassified;
+            TableRelation = "No. Series";
+        }
     }
 }

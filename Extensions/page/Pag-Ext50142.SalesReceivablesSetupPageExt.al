@@ -9,6 +9,11 @@ pageextension 50142 SalesReceivablesSetupPageExt extends "Sales & Receivables Se
                 Caption = 'Student Nos.';
                 ApplicationArea = All;
             }
+            field("Student Appv Nos"; Rec."Student Approval No")
+            {
+                Caption = 'Student Approval Nos.';
+                ApplicationArea = All;
+            }
         }
     }
 }
