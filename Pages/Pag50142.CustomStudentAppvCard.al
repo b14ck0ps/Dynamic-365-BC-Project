@@ -48,8 +48,13 @@ page 50142 "Custom Student Appv Card"
                     ToolTip = 'Send Approval Request';
                     PromotedCategory = Process;
                     trigger OnAction()
+                    var
+                        ApprovalMgt: Codeunit "Custom Workflow Mgt";
+                        RecRef: RecordRef;
                     begin
-                        Message('Send Approval Request');
+                        RecRef.GetTable(Rec);
+                        if ApprovalMgt.CheckApprovalsWorkflowEnabled(RecRef) then
+                            ApprovalMgt.OnSendWorkFlowForApproval(RecRef);
                     end;
                 }
 
@@ -63,8 +68,13 @@ page 50142 "Custom Student Appv Card"
                     PromotedCategory = Process;
                     Enabled = false;
                     trigger OnAction()
+                    var
+                        ApprovalMgt: Codeunit "Custom Workflow Mgt";
+                        RecRef: RecordRef;
                     begin
-                        Message('Cancel Approval Request');
+                        RecRef.GetTable(Rec);
+                        if ApprovalMgt.CheckApprovalsWorkflowEnabled(RecRef) then
+                            ApprovalMgt.OnCancelWorkFlowForApproval(RecRef);
                     end;
                 }
             }
