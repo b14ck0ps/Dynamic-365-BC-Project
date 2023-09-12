@@ -26,6 +26,7 @@ page 50142 "Custom Student Appv Card"
                 field(Status; Rec.Status)
                 {
                     ToolTip = 'Specifies the value of the Status field.';
+                    Editable = false;
                 }
             }
         }
