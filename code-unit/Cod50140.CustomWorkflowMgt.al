@@ -51,7 +51,91 @@ codeunit 50140 "Custom Workflow Mgt"
         WorkflowManagement.HandleEvent(GetWorkFlowCode(RUNWORKFLOWONCANCLEAPPROVALCODE, RecRef), RecRef);
     end;
 
-    procedure GetWorkFlowEventDesc(WorkflowEventDesc: Text; RecRef: RecordRef): Text
+
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Workflow Response Handling", OnOpenDocument, '', false, false)]
+    local procedure OnOpenDocument(RecRef: RecordRef; var Handled: Boolean)
+    var
+        CustomWorkflowHeader: Record "Custom Student Workflow Header";
+    begin
+        case RecRef.Number of
+            Database::"Custom Student Workflow Header":
+                begin
+                    RecRef.SetTable(CustomWorkflowHeader);
+                    CustomWorkflowHeader.Validate(Status, CustomWorkflowHeader.Status::Open);
+                    CustomWorkflowHeader.Modify(true);
+                    Handled := true;
+                end;
+        end;
+    end;
+
+
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Approvals Mgmt.", OnSetStatusToPendingApproval, '', false, false)]
+    local procedure OnSetStatusToPendingApproval(RecRef: RecordRef; var Variant: Variant; var IsHandled: Boolean)
+    var
+        CustomWorkflowHeader: Record "Custom Student Workflow Header";
+    begin
+        case RecRef.Number of
+            Database::"Custom Student Workflow Header":
+                begin
+                    RecRef.SetTable(CustomWorkflowHeader);
+                    CustomWorkflowHeader.Validate(Status, CustomWorkflowHeader.Status::Pending);
+                    CustomWorkflowHeader.Modify(true);
+                    Variant := CustomWorkflowHeader;
+                end;
+        end;
+    end;
+
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Approvals Mgmt.", OnPopulateApprovalEntryArgument, '', false, false)]
+    local procedure OnPopulateApprovalEntryArgument(var RecRef: RecordRef; var ApprovalEntryArgument: Record "Approval Entry"; WorkflowStepInstance: Record "Workflow Step Instance")
+    var
+        CustomWorkflowHeader: Record "Custom Student Workflow Header";
+    begin
+        case RecRef.Number of
+            Database::"Custom Student Workflow Header":
+                begin
+                    RecRef.SetTable(CustomWorkflowHeader);
+                    ApprovalEntryArgument."Document No." := CustomWorkflowHeader."No.";
+                end;
+        end;
+    end;
+
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Workflow Response Handling", OnReleaseDocument, '', false, false)]
+    local procedure OnReleaseDocument(RecRef: RecordRef; var Handled: Boolean)
+    var
+        CustomWorkflowHeader: Record "Custom Student Workflow Header";
+    begin
+        case RecRef.Number of
+            Database::"Custom Student Workflow Header":
+                begin
+                    RecRef.SetTable(CustomWorkflowHeader);
+                    CustomWorkflowHeader.Validate(Status, CustomWorkflowHeader.Status::Approved);
+                    CustomWorkflowHeader.Modify(true);
+                    Handled := true;
+                end;
+        end;
+    end;
+
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Approvals Mgmt.", OnRejectApprovalRequest, '', false, false)]
+    local procedure OnRejectApprovalRequest(var ApprovalEntry: Record "Approval Entry")
+    var
+        RecRef: RecordRef;
+        CustomWorkflowHeader: Record "Custom Student Workflow Header";
+    begin
+        case ApprovalEntry."Table ID" of
+            Database::"Custom Student Workflow Header":
+                begin
+                    if CustomWorkflowHeader.Get(ApprovalEntry."Document No.") then begin
+                        CustomWorkflowHeader.Validate(Status, CustomWorkflowHeader.Status::Rejected);
+                        CustomWorkflowHeader.Modify();
+                    end;
+                end;
+        end;
+    end;
+
+    procedure GetWorkFlowEventDesc(WorkflowEventDesc: Text;
+            RecRef:
+                RecordRef):
+            Text
     begin
         exit(StrSubstNo(WorkflowEventDesc, RecRef.Name));
     end;
