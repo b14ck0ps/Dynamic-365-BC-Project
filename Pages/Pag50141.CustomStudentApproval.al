@@ -28,4 +28,28 @@ page 50141 "Custom Student Approval"
             }
         }
     }
+    actions
+    {
+        area(Processing)
+        {
+            group("Request Approval")
+            {
+                Caption = 'Request Approval';
+                Image = SendApprovalRequest;
+                action(SendApprovalRequest)
+                {
+
+                    ApplicationArea = Basic, Suite;
+                    Caption = 'Send Approval Request';
+                    Promoted = true;
+                    ToolTip = 'Send Approval Request';
+                    PromotedCategory = Process;
+                    trigger OnAction()
+                    begin
+                        Message('Send Approval Request');
+                    end;
+                }
+            }
+        }
+    }
 }
