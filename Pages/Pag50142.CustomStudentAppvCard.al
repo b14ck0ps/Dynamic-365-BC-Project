@@ -88,7 +88,6 @@ page 50142 "Custom Student Appv Card"
                 Image = Approve;
                 action(Approve)
                 {
-
                     ApplicationArea = Basic, Suite;
                     Caption = 'Approve';
                     Image = Approve;
@@ -97,8 +96,12 @@ page 50142 "Custom Student Appv Card"
                     PromotedCategory = Process;
                     Visible = true;
                     trigger OnAction()
+                    var
+                        ApprovalMgt: Codeunit "Custom Workflow Mgt";
+                        RecRef: RecordRef;
                     begin
-                        Message('Approve');
+                        RecRef.GetTable(Rec);
+                        OApprovalMgt.ApproveRecordApprovalRequest(RecRef.RecordId);
                     end;
                 }
                 action(Reject)
@@ -151,17 +154,20 @@ page 50142 "Custom Student Appv Card"
                     Promoted = true;
                     ToolTip = 'View Approvals requests';
                     PromotedCategory = New;
+                    RunObject = Page "Approval Entries";
+                    RunPageLink = "Document No." = FIELD("No.");
                     trigger OnAction()
                     var
                         ApprovalMgt: Codeunit "Custom Workflow Mgt";
                         RecRef: RecordRef;
                     begin
-                        RecRef.GetTable(Rec);
-                        // ApprovalMgt.OnViewWorkFlowForApproval(RecRef);
+
                     end;
                 }
             }
         }
     }
+    var
+        OApprovalMgt: Codeunit "Approvals Mgmt.";
 }
 
