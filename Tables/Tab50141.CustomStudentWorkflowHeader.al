@@ -2,7 +2,8 @@ table 50141 "Custom Student Workflow Header"
 {
     Caption = 'Custom Student Workflow Header';
     DataClassification = ToBeClassified;
-
+    DrillDownPageId = "Custom Student Approval";
+    LookupPageId = "Custom Student Approval";
     fields
     {
         field(1; "No."; Code[10])

@@ -95,7 +95,7 @@ page 50142 "Custom Student Appv Card"
                     Promoted = true;
                     ToolTip = 'Approve';
                     PromotedCategory = Process;
-                    Visible = false;
+                    Visible = true;
                     trigger OnAction()
                     begin
                         Message('Approve');
@@ -152,8 +152,12 @@ page 50142 "Custom Student Appv Card"
                     ToolTip = 'View Approvals requests';
                     PromotedCategory = New;
                     trigger OnAction()
+                    var
+                        ApprovalMgt: Codeunit "Custom Workflow Mgt";
+                        RecRef: RecordRef;
                     begin
-                        Message('Approvals');
+                        RecRef.GetTable(Rec);
+                        // ApprovalMgt.OnViewWorkFlowForApproval(RecRef);
                     end;
                 }
             }
