@@ -81,6 +81,7 @@ codeunit 50140 "Custom Workflow Mgt"
                     CustomWorkflowHeader.Validate(Status, CustomWorkflowHeader.Status::Pending);
                     CustomWorkflowHeader.Modify(true);
                     Variant := CustomWorkflowHeader;
+                    IsHandled := true;
                 end;
         end;
     end;
