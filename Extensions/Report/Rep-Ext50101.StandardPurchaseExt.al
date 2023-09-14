@@ -5,11 +5,26 @@ reportextension 50101 "Standard Purchase Order Ext" extends "Standard Purchase -
         add("Purchase Line")
         {
             column(Tax; Tax) { }
+
         }
+        add("Totals")
+        {
+            column(TotalTax; TotalTax) { }
+        }
+
+        modify("Purchase Line")
+        {
+            trigger OnAfterAfterGetRecord()
+            begin
+                TotalTax += Tax;
+            end;
+        }
+
     }
+
     rendering
     {
-        layout(customLayput)
+        layout(customLayout)
         {
             Type = Word;
             LayoutFile = './Extensions/Report/Layout/Word/StandardPurchaseOrderExt.docx';
@@ -17,5 +32,5 @@ reportextension 50101 "Standard Purchase Order Ext" extends "Standard Purchase -
     }
 
     var
-        footer: Label 'This is a footer Coming From Extension';
+        TotalTax: Decimal;
 }
